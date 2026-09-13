@@ -14,20 +14,17 @@ A flexible command-line tool that discovers skills across multiple repositories 
 ## Quick Start
 
 ```bash
-# Clone or copy to ~/scripts (for example)
-cd ~/scripts
-git clone <your-repo-url> link-skills
-
-# Quick install with Makefile
+# Clone the repository
+cd ~/src
+git clone https://github.com/andrewjdarnell/link-skills.git
 cd link-skills
-make quickstart  # Installs tool and config
 
-# Or install manually
-make install
-make install-config
+# Quick install (recommended)
+make quickstart  # Installs as 'link-skills' command + creates config
 
-# Or run directly without installing
-./link-skills.sh
+# OR run directly without installing
+./link-skills.sh --dry-run  # Preview what would happen
+./link-skills.sh            # Actually link skills
 ```
 
 ## Requirements
@@ -55,18 +52,20 @@ link-skills
 
 # Preview what would be linked (dry run)
 make dry-run
-# or:
+# or if installed:
 link-skills --dry-run
 
 # Show detailed output
 make verbose
-# or:
+# or if installed:
 link-skills --verbose
 
-# Use custom config file
+# Use custom config file (after installation)
 link-skills --config ~/my-config.toml
 
 # Get help
+./link-skills.sh --help
+# or if installed:
 link-skills --help
 ```
 
@@ -153,19 +152,67 @@ Without a config file, the tool:
 
 ## Installation Options
 
-### Quick Install (Recommended)
+### Recommended: UV Tool Install (Best for CLI tools)
 
 ```bash
-# Install everything at once
-make quickstart
+# Install globally with uv (fastest, isolated)
+make install-uv
+# or manually:
+uv tool install .
+
+# Uninstall
+uv tool uninstall link-skills
 ```
 
-This will:
-1. Copy files to `~/scripts`
-2. Create example config at `~/.config/link-skills/config.toml`
-3. Show next steps
+This installs `link-skills` command globally in an isolated environment. No PATH modification needed!
 
-### Manual Installation
+### Alternative: Pipx (Also great for CLI tools)
+
+```bash
+# Install with pipx
+make install-pipx
+# or manually:
+pipx install .
+
+# Uninstall
+pipx uninstall link-skills
+```
+
+### Simple: Copy to ~/scripts (No Python packaging)
+
+```bash
+# Quick and simple - just copies files
+make quickstart  # Installs + creates config
+
+# Or manual install
+make install
+make install-config
+```
+
+This copies files to `~/scripts/link-skills`. You'll need to add `~/scripts` to your PATH.
+
+### Development: Editable Install
+
+```bash
+# For development - changes reflect immediately
+make install-editable
+# or manually:
+uv pip install -e .
+
+# Uninstall
+uv pip uninstall link-skills
+```
+
+## Which Method Should I Use?
+
+| Method | Best For | Pros | Cons |
+|--------|----------|------|------|
+| **`uv tool install`** | Most users | Fast, isolated, global | Requires UV |
+| **`pipx install`** | Python users | Isolated, standard tool | Requires pipx |
+| **`make install`** | Simplicity | No Python packaging knowledge | Manual PATH setup |
+| **`make install-editable`** | Development | Live updates | Local venv only |
+
+**My recommendation:** Use `make install-uv` or `make quickstart-uv` - it's the modern, fast way to install Python CLI tools.
 
 ### Option 1: Install to ~/scripts
 ```bash
@@ -254,15 +301,19 @@ brew install python3
 ### "Config file not found"
 The tool works without a config file! It will use sensible defaults. To create a config:
 ```bash
+# Create config with example repos
 cp link-skills-config.example.toml ~/.config/link-skills/config.toml
 # Edit with your repositories
+nano ~/.config/link-skills/config.toml
 ```
+
+Or use: `make install-config`
 
 ### Skills not appearing
 1. Check that `SKILL.md` exists in each skill directory
-2. Verify paths in your config are correct (use `--verbose` flag)
+2. Verify paths in your config are correct (use `link-skills --verbose` if installed, or `./link-skills.sh --verbose` from source)
 3. Check that directories aren't in exclude lists
-4. Try `--dry-run` to see what would be linked
+4. Try `--dry-run` to see what would be linked: `link-skills --dry-run` or `./link-skills.sh --dry-run`
 
 ## Credits
 

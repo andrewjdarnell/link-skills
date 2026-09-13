@@ -12,7 +12,7 @@ help: ## Show this help message
 
 ##@ Installation
 
-install: ## Install link-skills to ~/scripts (recommended location)
+install: ## Install link-skills to ~/scripts (simple copy method)
 	@echo "→ Installing link-skills to ~/scripts..."
 	@mkdir -p ~/scripts
 	@cp link-skills.sh ~/scripts/link-skills
@@ -27,7 +27,31 @@ install: ## Install link-skills to ~/scripts (recommended location)
 	@echo ""
 	@echo "Then run: link-skills"
 
-install-bin: ## Install link-skills to ~/bin (alternative location)
+install-uv: ## Install as Python package with uv (recommended for Python users)
+	@echo "→ Installing link-skills as Python package..."
+	@uv tool install .
+	@echo "✓ Installed successfully!"
+	@echo ""
+	@echo "Command available globally: link-skills"
+	@echo "To uninstall: uv tool uninstall link-skills"
+
+install-pipx: ## Install globally with pipx (isolated environment)
+	@echo "→ Installing link-skills with pipx..."
+	@pipx install .
+	@echo "✓ Installed successfully!"
+	@echo ""
+	@echo "Command available globally: link-skills"
+	@echo "To uninstall: pipx uninstall link-skills"
+
+install-editable: ## Install in editable mode for development
+	@echo "→ Installing link-skills in editable mode..."
+	@uv pip install -e .
+	@echo "✓ Installed in editable mode!"
+	@echo ""
+	@echo "Changes to source will be reflected immediately."
+	@echo "To uninstall: uv pip uninstall link-skills"
+
+install-bin: ## Install link-skills to ~/bin (alternative simple copy)
 	@echo "→ Installing link-skills to ~/bin..."
 	@mkdir -p ~/bin
 	@cp link-skills.sh ~/bin/link-skills
@@ -56,6 +80,16 @@ uninstall: ## Remove link-skills from ~/scripts
 	@rm -f ~/scripts/link-skills
 	@rm -f ~/scripts/link_skills.py
 	@rm -f ~/scripts/pyproject.toml
+	@echo "✓ Uninstalled successfully!"
+
+uninstall-uv: ## Uninstall Python package installed with uv
+	@echo "✗ Uninstalling link-skills..."
+	@uv tool uninstall link-skills
+	@echo "✓ Uninstalled successfully!"
+
+uninstall-pipx: ## Uninstall package installed with pipx
+	@echo "✗ Uninstalling link-skills..."
+	@pipx uninstall link-skills
 	@echo "✓ Uninstalled successfully!"
 
 ##@ Development
@@ -216,7 +250,17 @@ version: ## Show version information
 
 ##@ Quick Start
 
-quickstart: install install-config ## Install everything and setup config
+quickstart: install install-config ## Install everything and setup config (simple method)
+	@echo ""
+	@echo "✓ Quick start complete!"
+	@echo ""
+	@echo "Next steps:"
+	@echo "  1. Edit config: $$EDITOR ~/.config/link-skills/config.toml"
+	@echo "  2. Add your skill repositories to the config"
+	@echo "  3. Run: link-skills --dry-run (to preview)"
+	@echo "  4. Run: link-skills (to actually link)"
+
+quickstart-uv: install-uv install-config ## Install with uv tool (recommended for Python users)
 	@echo ""
 	@echo "✓ Quick start complete!"
 	@echo ""

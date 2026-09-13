@@ -1,0 +1,80 @@
+# Link-Skills Configuration File
+# Copy this to ~/.config/link-skills/config.toml or ~/scripts/link-skills-config.toml
+
+# ============================================================================
+# Repositories
+# ============================================================================
+# Each repository is scanned for directories containing SKILL.md files
+
+[[repositories]]
+name = "mattpocock-skills"
+path = "~/src/mattpocock/skills"
+enabled = true
+exclude_dirs = ["deprecated", "misc"]
+
+[[repositories]]
+name = "anthropic-skills"
+path = "~/src/anthropic/skills"
+enabled = true
+exclude_dirs = ["experimental", "deprecated"]
+
+# Add more repositories as needed:
+# [[repositories]]
+# name = "my-custom-skills"
+# path = "~/src/my-skills"
+# enabled = true
+# exclude_dirs = []
+
+# ============================================================================
+# Destinations
+# ============================================================================
+# Standard locations used by various AI coding tools
+
+[[destinations]]
+path = "~/.claude/skills"  # Claude Desktop / Claude Code
+enabled = true
+
+[[destinations]]
+path = "~/.agents/skills"  # Generic agent skills (Codex, etc.)
+enabled = true
+
+[[destinations]]
+path = "~/.kiro/skills"    # Kiro IDE
+enabled = true
+
+# Add custom destinations:
+# [[destinations]]
+# path = "~/.my-custom-tool/skills"
+# enabled = true
+
+# ============================================================================
+# Global Settings
+# ============================================================================
+
+[settings]
+# Directories to ALWAYS exclude from ALL repositories
+# These are in addition to per-repository exclude_dirs above
+global_exclude_dirs = [
+  "deprecated",
+  "misc",
+  "node_modules",
+  ".git",
+  "__pycache__",
+  "test",
+  "tests"
+]
+
+# How to handle duplicate skill names from different repositories
+# Options:
+#   "warn"      - Link the first found, warn about duplicates (recommended)
+#   "skip"      - Skip duplicates entirely, only link first found (silent)
+#   "overwrite" - Last repository wins, overwrite previous links
+#   "error"     - Stop execution if duplicates are found
+duplicate_strategy = "warn"
+
+# Require that each skill directory contains a SKILL.md file
+# If false, any directory will be linked as a skill
+require_skill_md = true
+
+# Show verbose output during linking
+verbose = false
