@@ -22,7 +22,14 @@ cd link-skills
 # Quick install (recommended)
 make quickstart  # Installs as 'link-skills' command + creates config
 
-# OR run directly without installing
+# Then go edit the configuration at ~/.config/link-skills/config.toml
+# to add the skills repos that you care about
+
+# Then run
+link-skills
+# which should have been installed in ~/scripts directory which should also be in your path. You can check this with echo $PATH
+
+# OR run directly without installing from the link-skills repo
 ./link-skills.sh --dry-run  # Preview what would happen
 ./link-skills.sh            # Actually link skills
 ```
